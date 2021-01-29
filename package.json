@@ -1,0 +1,22 @@
+{
+  "name": "qingtong",
+  "version": "1.0.7",
+  "description": "Publishing Tools",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Publishing", "OSS", "CDN"
+  ],
+  "author": "Verdient.",
+  "license": "ISC",
+  "bin": {
+    "qt": "./bin/index.js"
+  },
+  "dependencies": {
+    "ali-oss": "^6.1.1",
+    "colors": "^1.4.0",
+    "single-line-log": "^1.1.2"
+  }
+}
