@@ -1,13 +1,16 @@
 {
   "name": "qingtong",
-  "version": "1.0.7",
+  "version": "2.0.0",
   "description": "Publishing Tools",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "Publishing", "OSS", "CDN"
+    "Publishing",
+    "SSH",
+    "OSS",
+    "CDN"
   ],
   "author": "Verdient.",
   "license": "ISC",
@@ -15,8 +18,9 @@
     "qt": "./bin/index.js"
   },
   "dependencies": {
-    "ali-oss": "^6.1.1",
+    "ali-oss": "^6.15.2",
     "colors": "^1.4.0",
-    "single-line-log": "^1.1.2"
+    "single-line-log": "^1.1.2",
+    "ssh2": "^1.1.0"
   }
 }

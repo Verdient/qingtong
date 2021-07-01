@@ -10,16 +10,14 @@ const Command = require('../lib/Command');
  */
 class Version extends Command
 {
-	/**
-	 * run()
-	 * 运行
-	 * ----
-	 * @author Verdient。
-	 */
-	async run(){
-		let version = require('../package.json').version;
-		console.log(version);
-	}
+    /**
+     * @inheritdoc
+     * @author Verdient。
+     */
+    async run(){
+        let version = require('../package.json').version;
+        console.log(version);
+    }
 }
 
 module.exports = Version;

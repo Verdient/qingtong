@@ -14,5 +14,5 @@ const CONFIG_PATH = process.cwd() + '/' + CONFIG_FILE;
 const application = new Application(COMMANDS_PATH, CONFIG_PATH);
 
 application.run().then(exitCode => {
-	process.exit(exitCode);
+    process.exit(exitCode);
 }).catch(console.error);
