@@ -87,7 +87,7 @@ class OssPublish extends OssCommand
         for(let path in this._files){
             await this.oss.put(path, this._files[path]);
             count++;
-            processBar.render(count, this._fileCount, true);
+            processBar.render(count, this._fileCount);
         }
     }
 
