@@ -1,6 +1,6 @@
 {
   "name": "qingtong",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Publishing Tools",
   "main": "index.js",
   "scripts": {
