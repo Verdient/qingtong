@@ -85,7 +85,11 @@ class OssPublish extends OssCommand
         let processBar = new ProcessBar('正在发布新版本');
         let count = 0;
         for(let path in this._files){
-            await this.oss.put(path, this._files[path]);
+            await this.oss.put(path, this._files[path], {
+                headers: {
+                    'x-oss-persistent-headers': 'Cross-Origin-Embedder-Policy:cmVxdWlyZS1jb3Jw,Cross-Origin-Opener-Policy:c2FtZS1vcmlnaW4=,Cross-Origin-Resource-Policy:Y3Jvc3Mtb3JpZ2lu'
+                }
+            });
             count++;
             processBar.render(count, this._fileCount);
         }

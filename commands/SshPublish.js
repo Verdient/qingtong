@@ -150,7 +150,7 @@ class SshPublish extends Command
             unlinkSync(tmpPath);
         }
         this.print('正在压缩文件');
-        await this.execCommand('tar', ['-czf', this.tmpPath(), '*']);
+        await this.execCommand('tar', ['-czf', this.tmpPath(), './']);
         return true;
     }
 
