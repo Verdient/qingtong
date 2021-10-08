@@ -1,7 +1,7 @@
 'use strict'
 
 const { spawn, spawnSync } = require('child_process');
-const { exists }  = require('fs');
+const { exists } = require('fs');
 const { platform, type, homedir } = require('os');
 const Command = require('../lib/Command');
 const CHECKER_OS = 'CHECKER_OS';
@@ -12,14 +12,12 @@ const CHECKER_NO_FILE = 'CHECKER_NO_FILE';
  * 安装
  * @author Verdient。
  */
-class Install extends Command
-{
+class Install extends Command {
     /**
      * 初始化
      * @author Verdient。
      */
-    init()
-    {
+    init() {
         super.init();
         this.checkerMap = {
             CHECKER_OS: this.checkOS,
@@ -54,7 +52,7 @@ class Install extends Command
                 }],
                 installScript: [
                     ['rm', '-f', '.installOhMyZsh'],
-                    ['wget', 'https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh',  '-O', '.installOhMyZsh'],
+                    ['wget', 'https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh', '-O', '.installOhMyZsh'],
                     ['sh', '.installOhMyZsh'],
                     ['rm', '-f', '.installOhMyZsh']
                 ]
@@ -67,11 +65,10 @@ class Install extends Command
      * @return {String}
      * @author Verdient。
      */
-    get OS()
-    {
+    get OS() {
         let osPlatform = platform();
         let osType = type();
-        if(osPlatform === 'darwin' && osType === 'Darwin'){
+        if (osPlatform === 'darwin' && osType === 'Darwin') {
             return 'MacOS';
         }
         return false;
@@ -82,8 +79,7 @@ class Install extends Command
      * @return {Object}
      * @author Verdient。
      */
-    get softwares()
-    {
+    get softwares() {
         return this._softwares;
     }
 
@@ -92,14 +88,13 @@ class Install extends Command
      * @param {String} command 命令
      * @author Verdient。
      */
-    isInstalled(command)
-    {
+    isInstalled(command) {
         let result = spawnSync('which', [command]);
         let output = result.stdout.toString().replace('\n', '');
-        if(output === ''){
+        if (output === '') {
             output = result.stderr.toString().replace('\n', '');
         }
-        if(output.indexOf(command) !== -1){
+        if (output.indexOf(command) !== -1) {
             return output;
         }
         return false;
@@ -109,19 +104,18 @@ class Install extends Command
      * 运行
      * @author Verdient。
      */
-    async run()
-    {
+    async run() {
         let software = this.parseName(this.params[0]);
-        if(software){
-            if(await this.checkInstall(software)){
+        if (software) {
+            if (await this.checkInstall(software)) {
                 this.info('开始安装 ' + software.name);
-                if(await this.install(software)){
+                if (await this.install(software)) {
                     this.success(software.name + ' 安装成功');
-                }else{
+                } else {
                     this.error(software.name + ' 安装失败');
                 }
             }
-        }else{
+        } else {
             this.printHelp();
         }
     }
@@ -132,9 +126,8 @@ class Install extends Command
      * @param {Array} osList 操作系统列表
      * @author Verdient。
      */
-    async checkOS(software, osList)
-    {
-        if(!osList.includes(this.OS)){
+    async checkOS(software, osList) {
+        if (!osList.includes(this.OS)) {
             this.error(software.name + ' 只能在以下系统上安装：' + osList.join(', '));
             return false;
         }
@@ -146,18 +139,17 @@ class Install extends Command
      * @param {Object} software 安装信息
      * @author Verdient。
      */
-    async checkInstall(software)
-    {
-        for(let checker of software.checkers){
+    async checkInstall(software) {
+        for (let checker of software.checkers) {
             let checkerFunction;
-            if(typeof checker.checker === 'string'){
+            if (typeof checker.checker === 'string') {
                 checkerFunction = this.checkerMap[checker.checker];
-            }else if(typeof checker.checker === 'function'){
+            } else if (typeof checker.checker === 'function') {
                 checkerFunction = checker.checker;
             }
             let args = JSON.parse(JSON.stringify(checker.args));
             args.unshift(software);
-            if(!await checkerFunction.apply(this, args)){
+            if (!await checkerFunction.apply(this, args)) {
                 return false;
             }
         }
@@ -170,12 +162,11 @@ class Install extends Command
      * @param {String} bin 二进制命令
      * @author Verdient。
      */
-    async checkNoBin(software, bin)
-    {
+    async checkNoBin(software, bin) {
         let path = this.isInstalled(bin);
-        if(!path){
+        if (!path) {
             return true;
-        }else{
+        } else {
             this.error(software.name + ' 已存在于 ' + path + ', 请勿重复安装');
         }
         return false;
@@ -187,17 +178,16 @@ class Install extends Command
      * @param {String} path 文件路径
      * @author Verdient。
      */
-    async checkNoFile(software, path)
-    {
+    async checkNoFile(software, path) {
         return new Promise((resolve => {
-            if(path.substr(0, 1) === '~'){
+            if (path.substr(0, 1) === '~') {
                 path = homedir() + path.substr(1);
             }
             exists(path, (isExist) => {
-                if(isExist){
+                if (isExist) {
                     this.error(software.name + ' 已安装 , 请勿重复安装');
                     resolve(false);
-                }else{
+                } else {
                     resolve(true);
                 }
             });
@@ -209,13 +199,12 @@ class Install extends Command
      * @param {Object} software 软件信息
      * @author Verdient。
      */
-    async install(software)
-    {
+    async install(software) {
         return new Promise(async (resolve, revoke) => {
-            if(Array.isArray(software.installScript)){
-                for(let command of software.installScript){
+            if (Array.isArray(software.installScript)) {
+                for (let command of software.installScript) {
                     let args = command.splice(1);
-                    if(!await this.execCommand(command[0], args)){
+                    if (!await this.execCommand(command[0], args)) {
                         return false;
                     }
                 }
@@ -230,8 +219,7 @@ class Install extends Command
      * @return {Promise}
      * @author Verdient。
      */
-    async execCommand(command, args)
-    {
+    async execCommand(command, args) {
         return new Promise((resolve, revoke) => {
             let childProcess = spawn(command, args, {
                 stdio: ['inherit', 'inherit', 'inherit']
@@ -247,22 +235,20 @@ class Install extends Command
 
     /**
      * 解析名称
-     * ----------------------
      * @param {String} name 名称
-     * @return {Object|False}
+     * @return {Object|false}
      * @author Verdient。
      */
-    parseName(name)
-    {
+    parseName(name) {
         let names = Object.keys(this.softwares);
-        if(typeof name === 'string'){
+        if (typeof name === 'string') {
             name = name.split('@');
-            if(names.includes(name[0])){
+            if (names.includes(name[0])) {
                 let result = {
                     name: name[0],
                     version: typeof name[1] === 'string' ? name[1] : null
                 };
-                for(let i in this.softwares[name[0]]){
+                for (let i in this.softwares[name[0]]) {
                     result[i] = this.softwares[name[0]][i];
                 }
                 return result;
@@ -275,13 +261,13 @@ class Install extends Command
      * 打印帮助
      * @author Verdient。
      */
-    printHelp(){
+    printHelp() {
         this.error('仅支持安装以下软件：');
         let message = '';
         let interval = 20;
-        for(let i in this.softwares){
+        for (let i in this.softwares) {
             let realnIterval = interval - i.length;
-            if(realnIterval < 0){
+            if (realnIterval < 0) {
                 realnIterval = 0;
             }
             message += i + ' '.repeat(realnIterval) + this.softwares[i].description + '\n';

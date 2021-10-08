@@ -3,18 +3,15 @@
 const Command = require('../lib/Command');
 
 /**
- * Version
  * 版本
- * -------
  * @author Verdient。
  */
-class Version extends Command
-{
+class Version extends Command {
     /**
      * @inheritdoc
      * @author Verdient。
      */
-    async run(){
+    async run() {
         let version = require('../package.json').version;
         console.log(version);
     }

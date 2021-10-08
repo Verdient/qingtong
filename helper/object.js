@@ -26,7 +26,7 @@ const core_hasOwn = class2type.hasOwnProperty;
  * @author Verdient。
  */
 let type = (data) => {
-    if(data == null){
+    if (data == null) {
         return String(data);
     }
     return typeof data === "object" || typeof data === "function" ? class2type[core_toString.call(data)] || "object" : typeof data;
@@ -40,21 +40,21 @@ let type = (data) => {
  * @author Verdient。
  */
 let isPlainObject = (obj) => {
-    if(!obj || type(obj) !== "object" || obj.nodeType){
+    if (!obj || type(obj) !== "object" || obj.nodeType) {
         return false;
     }
-    try{
-        if(obj.constructor &&
+    try {
+        if (obj.constructor &&
             !core_hasOwn.call(obj, "constructor") &&
-            !core_hasOwn.call(obj.constructor.prototype, "isPrototypeOf")){
+            !core_hasOwn.call(obj.constructor.prototype, "isPrototypeOf")) {
             return false;
         }
-    }catch(e){
+    } catch (e) {
         return false;
     }
     let key;
-    for(key in obj){}
-    return key === undefined || core_hasOwn.call( obj, key );
+    for (key in obj) { }
+    return key === undefined || core_hasOwn.call(obj, key);
 }
 
 /**
@@ -66,7 +66,7 @@ let isPlainObject = (obj) => {
  */
 let isEmptyObject = (obj) => {
     let name;
-    for(name in obj){
+    for (name in obj) {
         return false;
     }
     return true;
@@ -83,26 +83,26 @@ let merge = () => {
         target = arguments[0] || {},
         length = arguments.length;
 
-    if(length < 2){
+    if (length < 2) {
         return target;
     }
-    for(let i = 1 ; i < length; i++ ){
-        if((options = arguments[i]) != null){
-            for(name in options){
+    for (let i = 1; i < length; i++) {
+        if ((options = arguments[i]) != null) {
+            for (name in options) {
                 src = target[name];
                 copy = options[name];
-                if(target === copy){
+                if (target === copy) {
                     continue;
                 }
-                if(copy && (isPlainObject(copy) || (copyIsArray = Array.isArray(copy)))){
-                    if (copyIsArray){
+                if (copy && (isPlainObject(copy) || (copyIsArray = Array.isArray(copy)))) {
+                    if (copyIsArray) {
                         copyIsArray = false;
                         clone = src && Array.isArray(src) ? src : [];
-                    }else{
+                    } else {
                         clone = src && isPlainObject(src) ? src : {};
                     }
                     target[name] = merge(clone, copy);
-                }else if(copy !== undefined){
+                } else if (copy !== undefined) {
                     target[name] = copy;
                 }
             }
@@ -119,8 +119,8 @@ let merge = () => {
  * @author Verdient。
  */
 let inArray = (needle, haystack) => {
-    for(let i in haystack){
-        if(haystack[i] == needle){
+    for (let i in haystack) {
+        if (haystack[i] == needle) {
             return true;
         }
     }
@@ -134,7 +134,7 @@ let inArray = (needle, haystack) => {
  * @author Verdient。
  */
 let ksort = (data, compareFunction) => {
-    let keys = Object.keys(data).sort(compareFunction);　　
+    let keys = Object.keys(data).sort(compareFunction);
     let result = {};
     keys.forEach((key) => {
         result[key] = data[key];
