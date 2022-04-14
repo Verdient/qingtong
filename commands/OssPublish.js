@@ -61,18 +61,6 @@ class OssPublish extends OssCommand {
     }
 
     /**
-     * 推送配置
-     * @return {Promise}
-     * @author Verdient。
-     */
-    async putConfig() {
-        return this.oss.putBucketWebsite(this.config.oss.bucket, {
-            index: this.config.oss.indexPage,
-            error: this.config.oss.errorPage
-        });
-    }
-
-    /**
      * 推送文件
      * @return {Promise}
      * @author Verdient。
@@ -115,8 +103,6 @@ class OssPublish extends OssCommand {
         if (!await Console.allow(question)) {
             return;
         }
-        this.info('上传配置中');
-        await this.putConfig();
         await this.putFiles();
         this.success('发布成功');
     }

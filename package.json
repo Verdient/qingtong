@@ -1,6 +1,6 @@
 {
   "name": "qingtong",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Publishing Tools",
   "main": "index.js",
   "scripts": {
@@ -18,9 +18,9 @@
     "qt": "./bin/index.js"
   },
   "dependencies": {
-    "ali-oss": "^6.15.2",
+    "ali-oss": "^6.17.1",
     "colors": "^1.4.0",
     "single-line-log": "^1.1.2",
-    "ssh2": "^1.1.0"
+    "ssh2": "^1.9.0"
   }
 }
